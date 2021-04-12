@@ -1,0 +1,43 @@
+configuration:
+
+  properties:
+    property:
+      name: baseDir
+      value: /var/log/product
+
+  appenders:
+    console:
+      - name: FREE_FORM_CONSOLE_APPENDER
+        patternLayout:
+          pattern: '{ "date": "%d", "level": "%p", "thread": "%t", "eventType": "UnexpectedError", "class": "%c", "content": "%m" }%n'
+        target: SYSTEM_OUT
+    rollingFile:
+      - name: FREE_FORM_FILE_APPENDER
+        fileName: ${baseDir}/product-api.log
+        filePattern: ${baseDir}/product-api.%d{yyyy-MM-dd}.%i.log
+        patternLayout:
+          pattern: "[date: %d] [level: %p] [thread: %t] [class: %c] - %m%n"
+        policies:
+          sizeBasedTriggeringPolicy:
+            size: "50 MB"
+        defaultRolloverStrategy:
+          delete:
+            basePath: ${baseDir}
+            maxDepth: 1
+            ifLastModified:
+              age: 7d
+              ifAny:
+                ifAccumulatedFileSize:
+                  exceeds: "5 GB"
+
+  loggers:
+    logger:
+      - name: com.adruy
+        level: debug
+        additivity: false
+        appenderRef:
+          - ref: FREE_FORM_FILE_APPENDER
+    root:
+      level: error
+      appenderRef:
+        - ref: FREE_FORM_CONSOLE_APPENDER
