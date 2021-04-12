@@ -1,4 +1,5 @@
 configuration:
+  status: warn
 
   properties:
     property:
