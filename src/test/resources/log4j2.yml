@@ -1,0 +1,13 @@
+configuration:
+  status: warn
+  appenders:
+    console:
+      - name: FREE_FORM_CONSOLE_APPENDER
+        patternLayout:
+          pattern: '{ "date": "%d", "level": "%p", "thread": "%t", "eventType": "UnexpectedError", "class": "%c", "content": "%m" }%n'
+        target: SYSTEM_OUT
+  loggers:
+    root:
+      level: info
+      appenderRef:
+        - ref: FREE_FORM_CONSOLE_APPENDER
