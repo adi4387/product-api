@@ -2,16 +2,15 @@ package com.adruy.papi.infra.inbound;
 
 import com.adruy.papi.domain.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-import javax.validation.Valid;
-import java.util.List;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 
 @RestController
 @RequestMapping("/products")
@@ -20,9 +19,9 @@ public class ProductFinderController {
 
     private final ProductQueryService productQueryService;
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public Flux<List<Product>> findProductsByName(@RequestParam @Valid String name) {
+    @GetMapping(produces = APPLICATION_NDJSON_VALUE)
+    public Flux<Product> findAllProductsBy(ServerHttpRequest request) {
         return productQueryService
-                .findProductsByName(name);
+                        .findAllProductsBy(request);
     }
 }

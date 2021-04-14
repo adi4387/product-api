@@ -3,4 +3,7 @@ env:
     connectionString: '127.0.0.1:11210'
     userName: 'Administrator'
     password: 'Password'
-    bucketName: 'beer-sample'
+    bucketName: 'product'
+spring:
+  profiles:
+    active: DEV

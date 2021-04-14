@@ -5,11 +5,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
 import org.springframework.data.couchbase.repository.auditing.EnableCouchbaseAuditing;
+import org.springframework.data.couchbase.repository.config.EnableReactiveCouchbaseRepositories;
 
 @Configuration
 @EnableConfigurationProperties({CouchbaseProperties.class})
 @RequiredArgsConstructor
 @EnableCouchbaseAuditing
+@EnableReactiveCouchbaseRepositories(basePackages = {"com.adruy.papi.outbound.repository"})
 public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
 
     private final CouchbaseProperties couchbaseProperties;

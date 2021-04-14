@@ -1,0 +1,42 @@
+[
+  {
+    "name": "CDRs",
+    "size": "S3"
+  },
+  {
+    "name": "DVDRs",
+    "size": "S1"
+  },
+  {
+    "name": "Notepad",
+    "size": "S2"
+  },
+  {
+    "name": "Envelopes",
+    "size": "S1"
+  },
+  {
+    "name": "Tape",
+    "size": "S2"
+  },
+  {
+    "name": "Tape",
+    "size": "S3"
+  },
+  {
+    "name": "Printer paper",
+    "size": "S3"
+  },
+  {
+    "name": "Pens",
+    "size": "S3"
+  },
+  {
+    "name": "Pencils",
+    "size": "S3"
+  },
+  {
+    "name": "Postage stamps",
+    "size": "S3"
+  }
+]

@@ -3,6 +3,8 @@ package com.adruy.papi.infra.inbound;
 import com.adruy.papi.application.ProductManagerService;
 import com.adruy.papi.domain.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,7 @@ public class ProductManagerController {
     private final ProductManagerService productManagerService;
 
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public Mono<Product> addNewProduct(@RequestBody Product product) {
-        return productManagerService
-                .registerProduct(product);
+    public ResponseEntity<Mono<Product>> addNewProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productManagerService.registerProduct(product), HttpStatus.CREATED);
     }
 }

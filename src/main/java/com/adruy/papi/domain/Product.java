@@ -9,8 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
+import org.springframework.data.couchbase.core.mapping.id.IdAttribute;
 import org.springframework.data.couchbase.core.mapping.id.IdPrefix;
-import org.springframework.data.couchbase.core.mapping.id.IdSuffix;
 
 import java.time.LocalDate;
 
@@ -23,14 +23,20 @@ import static org.springframework.data.couchbase.core.mapping.id.GenerationStrat
 @NoArgsConstructor
 public class Product {
 
+    private static final String DOC_TYPE = "product";
+
     @Id
     @GeneratedValue(strategy = USE_ATTRIBUTES)
     private String id;
 
     @IdPrefix
+    @Builder.Default
+    private String type = DOC_TYPE;
+
+    @IdAttribute
     private String name;
 
-    @IdSuffix
+    @IdAttribute(order = 1)
     private Size size;
 
     @CreatedDate

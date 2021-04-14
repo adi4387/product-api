@@ -26,6 +26,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2'
 	implementation "io.vavr:vavr:0.10.2"
+	implementation "org.apache.commons:commons-lang3:3.10"
 	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
 		exclude module: 'junit'
 		exclude module: 'junit-vintage-engine'
@@ -46,7 +47,6 @@ dependencyManagement {
 
 configurations.all {
 	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	exclude group: 'junit', module: 'junit'
 }
 
 test {
