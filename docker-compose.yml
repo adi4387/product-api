@@ -1,0 +1,16 @@
+version: "3"
+services:
+  db:
+    image: "couchbase:community"
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 8094:8094
+      - 11210:11210
+  product-api:
+    image: "adityakumarsingh88/papi:latest"
+    depends_on:
+      - db
+    ports:
+    - 8080:8080

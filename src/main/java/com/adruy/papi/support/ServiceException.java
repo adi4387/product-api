@@ -1,6 +1,6 @@
 package com.adruy.papi.support;
 
-import com.adruy.papi.infra.inbound.ProductsNotFoundException;
+import com.adruy.papi.application.ProductsNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

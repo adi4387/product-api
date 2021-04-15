@@ -1,4 +1,4 @@
-package com.adruy.papi.infra.inbound;
+package com.adruy.papi.application;
 
 import com.adruy.papi.domain.documents.Product;
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;
@@ -7,13 +7,12 @@ import lombok.Value;
 import reactor.core.publisher.Flux;
 
 @Value
-class ProductsFinderNameParam implements ProductsFinder {
+class ProductsGenericFinder implements ProductsFinder {
 
-    String searchValue;
     ProductReactiveRepository productReactiveRepository;
 
+    @Override
     public Option<Flux<Product>> findProducts() {
-        return Option.of(searchValue)
-                .map(name -> productReactiveRepository.findByName(name));
+        return Option.of(productReactiveRepository.findAll());
     }
 }

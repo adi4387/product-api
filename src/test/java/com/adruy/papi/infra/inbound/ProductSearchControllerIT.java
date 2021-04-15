@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.adruy.papi.domain.documents.Product.Size.S1;
-import static com.adruy.papi.infra.inbound.ProductsFinderFactory.UNKNOWN_SEARCH_PARAMETER;
-import static com.adruy.papi.infra.inbound.ProductsFinderSizeParam.INVALID_SIZE_ERROR_MESSAGE;
+import static com.adruy.papi.application.ProductsFinderFactory.UNKNOWN_SEARCH_PARAMETER;
+import static com.adruy.papi.application.ProductsFinderSizeParam.INVALID_SIZE_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.http.MediaType.APPLICATION_NDJSON;

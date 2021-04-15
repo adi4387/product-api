@@ -1,12 +1,10 @@
-package com.adruy.papi.infra.inbound;
+package com.adruy.papi.application;
 
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;
 
 import java.util.Map;
 
-import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
-
-class ProductsFinderFactory {
+public class ProductsFinderFactory {
 
     private static final String REQUEST_PARAM_NAME = "name";
     private static final String REQUEST_PARAM_SIZE = "size";

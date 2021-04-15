@@ -1,4 +1,4 @@
-package com.adruy.papi.infra.inbound;
+package com.adruy.papi.application;
 
 import com.adruy.papi.domain.documents.Product;
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;

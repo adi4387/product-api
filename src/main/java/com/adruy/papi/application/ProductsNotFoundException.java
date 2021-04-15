@@ -1,4 +1,4 @@
-package com.adruy.papi.infra.inbound;
+package com.adruy.papi.application;
 
 public class ProductsNotFoundException extends RuntimeException {
 

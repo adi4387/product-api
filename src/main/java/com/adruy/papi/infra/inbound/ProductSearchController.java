@@ -1,5 +1,7 @@
 package com.adruy.papi.infra.inbound;
 
+import com.adruy.papi.application.ProductQueryService;
+import com.adruy.papi.application.ProductsNotFoundException;
 import com.adruy.papi.domain.documents.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
