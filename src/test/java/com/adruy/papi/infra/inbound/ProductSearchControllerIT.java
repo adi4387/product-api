@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.adruy.papi.domain.documents.Product.Size.S1;
-import static com.adruy.papi.application.ProductsFinderFactory.UNKNOWN_SEARCH_PARAMETER;
-import static com.adruy.papi.application.ProductsFinderSizeParam.INVALID_SIZE_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.http.MediaType.APPLICATION_NDJSON;
@@ -29,12 +27,12 @@ public class ProductSearchControllerIT extends TestDataInitializer {
 
         webTestClient
                 .get()
-                .uri("/products")
+                .uri("/products?limit=2&offset=2")
                 .accept(APPLICATION_NDJSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Product.class)
-                .consumeWith((response) -> assertEquals(10, (long) response.getResponseBody().size()));
+                .consumeWith((response) -> assertEquals(2, response.getResponseBody().stream().count()));
     }
 
     @Test
@@ -44,7 +42,7 @@ public class ProductSearchControllerIT extends TestDataInitializer {
 
         webTestClient
                 .get()
-                .uri("/products?name=" + productName)
+                .uri("/products?name=" + productName + "&limit=1&offset=1")
                 .accept(APPLICATION_NDJSON)
                 .exchange()
                 .expectStatus().isOk()
@@ -59,12 +57,12 @@ public class ProductSearchControllerIT extends TestDataInitializer {
 
         webTestClient
                 .get()
-                .uri("/products?size=" + productSize.name())
+                .uri("/products?size=" + productSize.name() + "&limit=2&offset=0")
                 .accept(APPLICATION_NDJSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Product.class)
-                .consumeWith((response) -> assertEquals(productSize, response.getResponseBody().stream().findFirst().get().size()));
+                .consumeWith((response) -> assertEquals(2, response.getResponseBody().stream().count()));
     }
 
     @Test
@@ -78,20 +76,6 @@ public class ProductSearchControllerIT extends TestDataInitializer {
                 .accept(APPLICATION_NDJSON)
                 .exchange()
                 .expectStatus().isBadRequest()
-                .expectBodyList(ErrorResponse.class)
-                .consumeWith((response) -> assertEquals(INVALID_SIZE_ERROR_MESSAGE, response.getResponseBody().stream().findFirst().get().message()));
-    }
-
-    @Test
-    public void should_return_400_error_when_queried_by_invalid_parameter() {
-
-        webTestClient
-                .get()
-                .uri("/products?unknown=value")
-                .accept(APPLICATION_NDJSON)
-                .exchange()
-                .expectStatus().isBadRequest()
-                .expectBodyList(ErrorResponse.class)
-                .consumeWith((response) -> assertEquals(UNKNOWN_SEARCH_PARAMETER, response.getResponseBody().stream().findFirst().get().message()));
+                .expectBodyList(ErrorResponse.class);
     }
 }

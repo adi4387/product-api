@@ -39,6 +39,6 @@ configuration:
         appenderRef:
           - ref: FREE_FORM_FILE_APPENDER
     root:
-      level: error
+      level: debug
       appenderRef:
         - ref: FREE_FORM_CONSOLE_APPENDER

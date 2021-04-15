@@ -56,9 +56,9 @@ public class ProductReactiveRepositoryIT {
         Flux<Product> productFlux = productReactiveRepository.findAll();
 
         // then
-        StepVerifier.create(productReactiveRepository.findAll())
+        StepVerifier.create(productReactiveRepository.findAll(5,0))
                 .expectSubscription()
-                .expectNextCount(10)
+                .expectNextCount(5)
                 .verifyComplete();
     }
 
@@ -83,7 +83,7 @@ public class ProductReactiveRepositoryIT {
         var productName = "CDRs";
 
         // when
-        Flux<Product> productFlux = productReactiveRepository.findByName(productName);
+        Flux<Product> productFlux = productReactiveRepository.findByName(productName, 1, 0);
 
         // then
         StepVerifier.create(productFlux)
@@ -98,12 +98,12 @@ public class ProductReactiveRepositoryIT {
         var productSize = "S2";
 
         // when
-        Flux<Product> productFlux = productReactiveRepository.findBySize(productSize);
+        Flux<Product> productFlux = productReactiveRepository.findBySize(productSize, 1, 0);
 
         // then
         StepVerifier.create(productFlux)
                 .expectSubscription()
-                .expectNextCount(2)
+                .expectNextCount(1)
                 .verifyComplete();
     }
 }

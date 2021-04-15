@@ -1,24 +1,23 @@
 package com.adruy.papi.application;
 
+import com.adruy.papi.domain.documents.Product.Size;
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;
 
-import java.util.Map;
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 public class ProductsFinderFactory {
 
-    private static final String REQUEST_PARAM_NAME = "name";
-    private static final String REQUEST_PARAM_SIZE = "size";
-    public static final String UNKNOWN_SEARCH_PARAMETER = "Unknown Search Parameter";
-
-    static ProductsFinder productsFinder(Map<String, String> requestParams, ProductReactiveRepository productReactiveRepository) {
-        if (requestParams.isEmpty()) {
-            return new ProductsGenericFinder(productReactiveRepository);
-        } else if (requestParams.containsKey(REQUEST_PARAM_NAME)) {
-            return new ProductsFinderNameParam(requestParams.get(REQUEST_PARAM_NAME), productReactiveRepository);
-        } else if (requestParams.containsKey(REQUEST_PARAM_SIZE)) {
-            return new ProductsFinderSizeParam(requestParams.get(REQUEST_PARAM_SIZE), productReactiveRepository);
+    static ProductsFinder productsFinder(ProductReactiveRepository productReactiveRepository,
+                                         String name,
+                                         Size size,
+                                         Integer limit,
+                                         Integer offset) {
+        if (isNotEmpty(name)) {
+            return new ProductsFinderNameParam(productReactiveRepository, name, limit, offset);
+        } else if (isNotEmpty(size)) {
+            return new ProductsFinderSizeParam(productReactiveRepository, String.valueOf(size), limit, offset);
         } else {
-            throw new IllegalArgumentException(UNKNOWN_SEARCH_PARAMETER);
+            return new ProductsGenericFinder(productReactiveRepository, limit, offset);
         }
     }
 }
