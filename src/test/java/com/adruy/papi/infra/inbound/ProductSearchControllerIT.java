@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.adruy.papi.domain.documents.Product.Size.S1;
-import static com.adruy.papi.infra.inbound.ProductSearchRequestParam.NameSearchRequestParam.ILLEGAL_PRODUCT_NAME;
-import static com.adruy.papi.infra.inbound.ProductSearchRequestParam.SizeSearchRequestParam.INVALID_SIZE_ERROR_MESSAGE;
+import static com.adruy.papi.infra.inbound.ProductsFinderFactory.UNKNOWN_SEARCH_PARAMETER;
+import static com.adruy.papi.infra.inbound.ProductsFinderSizeParam.INVALID_SIZE_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.http.MediaType.APPLICATION_NDJSON;
@@ -19,7 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_NDJSON;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient(timeout = "PT10M")
 @TestInstance(PER_CLASS)
-public class ProductFinderControllerIT extends TestDataInitializer {
+public class ProductSearchControllerIT extends TestDataInitializer {
 
     @Autowired
     protected WebTestClient webTestClient;
@@ -68,21 +68,6 @@ public class ProductFinderControllerIT extends TestDataInitializer {
     }
 
     @Test
-    public void should_return_400_error_when_queried_by_name_with_illegal_characters() {
-
-        var productName = "@@@";
-
-        webTestClient
-                .get()
-                .uri("/products?name=" + productName)
-                .accept(APPLICATION_NDJSON)
-                .exchange()
-                .expectStatus().isBadRequest()
-                .expectBodyList(ErrorResponse.class)
-                .consumeWith((response) -> assertEquals(ILLEGAL_PRODUCT_NAME, response.getResponseBody().stream().findFirst().get().message()));
-    }
-
-    @Test
     public void should_return_400_error_when_queried_by_invalid_size() {
 
         var productSize = "S4";
@@ -95,5 +80,18 @@ public class ProductFinderControllerIT extends TestDataInitializer {
                 .expectStatus().isBadRequest()
                 .expectBodyList(ErrorResponse.class)
                 .consumeWith((response) -> assertEquals(INVALID_SIZE_ERROR_MESSAGE, response.getResponseBody().stream().findFirst().get().message()));
+    }
+
+    @Test
+    public void should_return_400_error_when_queried_by_invalid_parameter() {
+
+        webTestClient
+                .get()
+                .uri("/products?unknown=value")
+                .accept(APPLICATION_NDJSON)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBodyList(ErrorResponse.class)
+                .consumeWith((response) -> assertEquals(UNKNOWN_SEARCH_PARAMETER, response.getResponseBody().stream().findFirst().get().message()));
     }
 }

@@ -1,8 +1,6 @@
 package com.adruy.papi.infra.inbound;
 
 import com.adruy.papi.domain.documents.Product;
-import com.adruy.papi.support.ErrorResponse;
-import com.adruy.papi.support.PlatformException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -11,7 +9,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static com.adruy.papi.domain.documents.Product.Size.S1;
-import static com.adruy.papi.support.PlatformException.INVALID_DATA_PASSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -52,8 +49,6 @@ public class ProductManagerControllerIT {
                 .accept(APPLICATION_JSON)
                 .body(BodyInserters.fromValue(product))
                 .exchange()
-                .expectStatus().isBadRequest()
-                .expectBodyList(ErrorResponse.class)
-                .consumeWith((response) -> assertEquals(INVALID_DATA_PASSED, response.getResponseBody().stream().findFirst().get().message()));
+                .expectStatus().isBadRequest();
     }
 }

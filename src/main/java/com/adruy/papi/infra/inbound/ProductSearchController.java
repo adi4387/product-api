@@ -9,18 +9,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductFinderController {
+public class ProductSearchController {
 
     private final ProductQueryService productQueryService;
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE)
     public ResponseEntity<Flux<Product>> findAllProductsBy(ServerHttpRequest request) {
-        return new ResponseEntity<>(productQueryService.findAllProductsBy(request), HttpStatus.OK);
+        return new ResponseEntity<>(productQueryService.findAllProductsBy(request.getQueryParams().toSingleValueMap())
+                .switchIfEmpty(Mono.error(new ProductsNotFoundException())), HttpStatus.OK);
+
     }
 }
