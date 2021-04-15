@@ -1,8 +1,11 @@
 package com.adruy.papi.support;
 
 import com.adruy.papi.application.ProductsNotFoundException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
+import org.springframework.core.codec.DecodingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +33,7 @@ public class ServiceException {
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handle(ServerWebInputException ex) {
         LOG.error(INVALID_REQUEST_PARAMETER, ex);
+        ex.getMethodParameter();
         return new ResponseEntity<>(new ErrorResponse(BAD_REQUEST, ex.getMessage()), BAD_REQUEST);
     }
 

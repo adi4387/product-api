@@ -14,15 +14,23 @@ public class ProductQueryService {
     private final ProductReactiveRepository productReactiveRepository;
 
     public Flux<Product> findAllProductsBy(String name,
-                                           Size size,
                                            Integer limit,
                                            Integer offset) {
 
-        ProductsFinder productsFinder = ProductsFinderFactory.productsFinder(productReactiveRepository, name, size, limit, offset);
 
-        return productsFinder.findProducts()
-                .orElseThrow(() -> {
-                    throw new ProductsNotFoundException();
-                });
+        return productReactiveRepository.findByName(name, limit, offset);
+    }
+
+    public Flux<Product> findAllProductsBy(Size size,
+                                           Integer limit,
+                                           Integer offset) {
+        return productReactiveRepository.findByName(String.valueOf(size), limit, offset);
+
+    }
+
+    public Flux<Product> findAllProducts(Integer limit,
+                                         Integer offset) {
+
+        return productReactiveRepository.findAll(limit, offset);
     }
 }
