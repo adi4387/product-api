@@ -25,7 +25,7 @@ public class TestDataInitializer {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void initialize() throws IOException {
+    void initialize() throws IOException {
 
         Resource resource = resourceLoader.getResource("classpath:products.json");
         List<Product> products = objectMapper.readValue(resource.getFile(), new TypeReference<>() {

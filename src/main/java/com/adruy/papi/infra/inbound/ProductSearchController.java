@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.Max;
+
 import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 
 @RestController
@@ -31,7 +33,7 @@ public class ProductSearchController {
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE, params = NAME)
     public ResponseEntity<Flux<Product>> findAllProductsByName(@RequestParam(value = NAME) String name,
-                                                               @RequestParam(value = LIMIT, required = false, defaultValue = DEFAULT_LIMIT) Integer limit,
+                                                               @RequestParam(value = LIMIT, required = false, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
                                                                @RequestParam(value = OFFSET, required = false, defaultValue = DEFAULT_OFFSET) Integer offset) {
         return new ResponseEntity<>(productQueryService.findAllProductsBy(name, limit, offset)
                 .switchIfEmpty(Mono.error(new ProductsNotFoundException())), HttpStatus.OK);
@@ -39,14 +41,14 @@ public class ProductSearchController {
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE, params = SIZE)
     public ResponseEntity<Flux<Product>> findAllProductsBySize(@RequestParam(value = SIZE) Size size,
-                                                               @RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) Integer limit,
+                                                               @RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
                                                                @RequestParam(value = OFFSET, defaultValue = DEFAULT_OFFSET) Integer offset) {
         return new ResponseEntity<>(productQueryService.findAllProductsBy(size, limit, offset)
                 .switchIfEmpty(Mono.error(new ProductsNotFoundException())), HttpStatus.OK);
     }
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE, params = {LIMIT, OFFSET})
-    public ResponseEntity<Flux<Product>> findAllProducts(@RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) Integer limit,
+    public ResponseEntity<Flux<Product>> findAllProducts(@RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
                                                          @RequestParam(value = OFFSET, defaultValue = DEFAULT_OFFSET) Integer offset) {
         return new ResponseEntity<>(productQueryService.findAllProducts(limit, offset)
                 .switchIfEmpty(Mono.error(new ProductsNotFoundException())), HttpStatus.OK);
