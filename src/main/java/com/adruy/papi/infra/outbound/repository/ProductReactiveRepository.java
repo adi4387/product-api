@@ -1,6 +1,6 @@
 package com.adruy.papi.infra.outbound.repository;
 
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
 import org.springframework.data.couchbase.repository.Query;
 import org.springframework.data.couchbase.repository.ReactiveCouchbaseRepository;
 import org.springframework.stereotype.Repository;

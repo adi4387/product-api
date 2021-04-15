@@ -1,4 +1,4 @@
-package com.adruy.papi.domain;
+package com.adruy.papi.domain.documents;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

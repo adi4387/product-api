@@ -1,6 +1,8 @@
 package com.adruy.papi.infra.inbound;
 
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
+import com.adruy.papi.support.ErrorResponse;
+import com.adruy.papi.support.PlatformException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -8,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import static com.adruy.papi.domain.Product.Size.S1;
+import static com.adruy.papi.domain.documents.Product.Size.S1;
+import static com.adruy.papi.support.PlatformException.INVALID_DATA_PASSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -20,7 +23,7 @@ public class ProductManagerControllerIT {
     protected WebTestClient webTestClient;
 
     @Test
-    public void should_return_product_id_when_new_product_is_added() {
+    public void should_return_product_with_id_when_new_product_is_added() {
         var delimiter = ".";
         var documentName = "product";
         var product = Product.builder().name("Phone").size(S1).build();
@@ -36,5 +39,21 @@ public class ProductManagerControllerIT {
                 .expectStatus().isCreated()
                 .expectBodyList(Product.class)
                 .consumeWith((response) -> assertEquals(expectedProductId, response.getResponseBody().stream().findFirst().get().id()));
+    }
+
+    @Test
+    public void should_return_error_response_when_invalid_size_is_passed() {
+        var product = "{\"name\":\"Test Product\",\"size\":\"S4\"}";
+
+        webTestClient
+                .post()
+                .uri("/products")
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(BodyInserters.fromValue(product))
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBodyList(ErrorResponse.class)
+                .consumeWith((response) -> assertEquals(INVALID_DATA_PASSED, response.getResponseBody().stream().findFirst().get().message()));
     }
 }

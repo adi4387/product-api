@@ -1,6 +1,6 @@
 package com.adruy.papi.infra.inbound;
 
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

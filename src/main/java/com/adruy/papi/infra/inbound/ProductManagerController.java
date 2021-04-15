@@ -1,7 +1,7 @@
 package com.adruy.papi.infra.inbound;
 
 import com.adruy.papi.application.ProductManagerService;
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.adruy.papi.infra.inbound;
 
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +20,7 @@ public class ProductFinderController {
     private final ProductQueryService productQueryService;
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE)
-    public Flux<Product> findAllProductsBy(ServerHttpRequest request) {
-        return productQueryService
-                        .findAllProductsBy(request);
+    public ResponseEntity<Flux<Product>> findAllProductsBy(ServerHttpRequest request) {
+        return new ResponseEntity<>(productQueryService.findAllProductsBy(request), HttpStatus.OK);
     }
 }

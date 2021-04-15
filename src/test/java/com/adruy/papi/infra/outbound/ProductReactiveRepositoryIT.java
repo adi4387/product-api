@@ -1,6 +1,6 @@
 package com.adruy.papi.infra.outbound;
 
-import com.adruy.papi.domain.Product;
+import com.adruy.papi.domain.documents.Product;
 import com.adruy.papi.infra.outbound.repository.ProductReactiveRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.util.List;
 
-import static com.adruy.papi.domain.Product.Size.S1;
+import static com.adruy.papi.domain.documents.Product.Size.S1;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @SpringBootTest
