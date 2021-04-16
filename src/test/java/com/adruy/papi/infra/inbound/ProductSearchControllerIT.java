@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static com.adruy.papi.domain.documents.Product.Size.S1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.http.MediaType.APPLICATION_NDJSON;
@@ -53,11 +52,11 @@ public class ProductSearchControllerIT extends TestDataInitializer {
     @Test
     public void should_return_product_when_queried_by_product_size() {
 
-        var productSize = S1;
+        var productSize = "S1";
 
         webTestClient
                 .get()
-                .uri("/products?size=" + productSize.name() + "&limit=2&offset=0")
+                .uri("/products?size=" + productSize + "&limit=2&offset=0")
                 .accept(APPLICATION_NDJSON)
                 .exchange()
                 .expectStatus().isOk()

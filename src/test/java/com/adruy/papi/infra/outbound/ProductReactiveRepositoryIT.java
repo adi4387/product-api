@@ -18,7 +18,6 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.util.List;
 
-import static com.adruy.papi.domain.documents.Product.Size.S1;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @SpringBootTest
@@ -56,7 +55,7 @@ public class ProductReactiveRepositoryIT {
         Flux<Product> productFlux = productReactiveRepository.findAll();
 
         // then
-        StepVerifier.create(productReactiveRepository.findAll(5,0))
+        StepVerifier.create(productReactiveRepository.findAll(5, 0))
                 .expectSubscription()
                 .expectNextCount(5)
                 .verifyComplete();
@@ -65,7 +64,7 @@ public class ProductReactiveRepositoryIT {
     @Test
     public void should_add_product() {
         //given
-        var product = Product.builder().name("Orange").size(S1).build();
+        var product = Product.builder().name("Orange").size("S1").build();
 
         // when
         Mono<Product> productMono = productReactiveRepository.save(product);

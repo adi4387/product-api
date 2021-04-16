@@ -38,7 +38,12 @@ configuration:
         additivity: false
         appenderRef:
           - ref: FREE_FORM_FILE_APPENDER
+      - name: org.springframework.data.couchbase.repository.query
+        level: debug
+        additivity: false
+        appenderRef:
+          - ref: FREE_FORM_CONSOLE_APPENDER
     root:
-      level: debug
+      level: error
       appenderRef:
         - ref: FREE_FORM_CONSOLE_APPENDER

@@ -21,7 +21,8 @@ public class ProductManagerController {
     private final ProductManagerService productManagerService;
 
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Mono<Product>> addNewProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(productManagerService.registerProduct(product), HttpStatus.CREATED);
+    public ResponseEntity<Mono<ProductDTO>> addNewProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productManagerService.registerProduct(product)
+                .map(item -> new ProductDTO(product.id(), product.name(), product.size())), HttpStatus.CREATED);
     }
 }

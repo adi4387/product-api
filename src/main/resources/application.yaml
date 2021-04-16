@@ -4,6 +4,7 @@ env:
     userName: 'Administrator'
     password: 'Password'
     bucketName: 'products'
+
 spring:
   profiles:
     active: DEV
