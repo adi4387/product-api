@@ -42,7 +42,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products?name=Asparagus&limit=2",
+							"raw": "http://localhost:8080/products?name=Asparagus&limit=2&offset=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -59,6 +59,35 @@
 								{
 									"key": "limit",
 									"value": "2"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Name And Without Pagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products?name=Asparagus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Asparagus"
 								}
 							]
 						}
@@ -71,7 +100,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products?size=S3&limit=2&offset=1",
+							"raw": "http://localhost:8080/products?size=S2&limit=2&offset=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -83,11 +112,40 @@
 							"query": [
 								{
 									"key": "size",
-									"value": "S3"
+									"value": "S2"
 								},
 								{
 									"key": "limit",
 									"value": "2"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products?limit=10&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
 								},
 								{
 									"key": "offset",
@@ -152,9 +210,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Body matches string\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"Products Not Found\");",
-									"});",
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
 									"});"
