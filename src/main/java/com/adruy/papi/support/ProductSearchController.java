@@ -31,8 +31,8 @@ public class  ProductSearchController {
 
     @GetMapping(produces = APPLICATION_NDJSON_VALUE, params = NAME)
     public ResponseEntity<Mono<ProductsResponse>> findAllProductsByName(@RequestParam(value = NAME) String name,
-                                                                        @RequestParam(value = LIMIT, required = false, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
-                                                                        @RequestParam(value = OFFSET, required = false, defaultValue = DEFAULT_OFFSET) Integer offset) {
+                                                                        @RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
+                                                                        @RequestParam(value = OFFSET, defaultValue = DEFAULT_OFFSET) Integer offset) {
         return new ResponseEntity<>(productQueryService.findAllProductsByName(name, limit, offset)
                 .collectList()
                 .map(products -> new ProductsResponse(products))
@@ -49,7 +49,7 @@ public class  ProductSearchController {
                 .switchIfEmpty(Mono.error(new ProductsNotFoundException())), HttpStatus.OK);
     }
 
-    @GetMapping(produces = APPLICATION_NDJSON_VALUE, params = {LIMIT, OFFSET})
+    @GetMapping(produces = APPLICATION_NDJSON_VALUE)
     public ResponseEntity<Mono<ProductsResponse>> findAllProducts(@RequestParam(value = LIMIT, defaultValue = DEFAULT_LIMIT) @Max(50) Integer limit,
                                                                   @RequestParam(value = OFFSET, defaultValue = DEFAULT_OFFSET) Integer offset) {
         return new ResponseEntity<>(productQueryService.findAllProducts(limit, offset)
